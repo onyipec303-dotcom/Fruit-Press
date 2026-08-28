@@ -1,0 +1,6 @@
+{
+  "name": "Manual Hand Fruit Press",
+  "description": "Peculiar Stores - Make fresh juice easier without electricity, batteries or stress. Official order page with free nationwide delivery across Nigeria.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

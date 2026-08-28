@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --color-citrus-primary: #EA580C;
+    --color-citrus-hover: #C2410C;
+    --color-citrus-light: #FFEDD5;
+    --color-citrus-amber: #F59E0B;
+    --color-leaf-green: #16A34A;
+    --color-metal-silver: #94A3B8;
+    --color-metal-dark: #334155;
+    --color-surface-card: #FFFFFF;
+    --color-surface-bg: #FAF8F5;
+    --radius-card: 1rem;
+    --radius-button: 9999px;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: #FAF8F5;
+    color: #1E293B;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, .font-heading {
+    font-family: 'Outfit', sans-serif;
+    letter-spacing: -0.025em;
+  }
+}
+
+/* Custom elevated shadow utilities conforming to Anti-Slop & Premium standards */
+.shadow-elevated-card {
+  box-shadow: 0 10px 30px -5px rgba(234, 88, 12, 0.08), 0 4px 12px -2px rgba(15, 23, 42, 0.05);
+}
+
+.shadow-elevated-hover {
+  box-shadow: 0 20px 35px -8px rgba(234, 88, 12, 0.16), 0 8px 16px -4px rgba(15, 23, 42, 0.08);
+}
+
+.shadow-button-glow {
+  box-shadow: 0 8px 25px -4px rgba(234, 88, 12, 0.45);
+}
+
+.shadow-button-glow:hover {
+  box-shadow: 0 12px 30px -3px rgba(234, 88, 12, 0.6);
+}
+
+/* Juice particle and drip animations */
+@keyframes juiceDrip {
+  0% { transform: translateY(0) scaleY(1); opacity: 1; }
+  70% { transform: translateY(50px) scaleY(1.4); opacity: 0.9; }
+  100% { transform: translateY(80px) scaleY(0.8); opacity: 0; }
+}
+
+.animate-juice-drip {
+  animation: juiceDrip 1.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.05); }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 4s ease-in-out infinite;
+}
