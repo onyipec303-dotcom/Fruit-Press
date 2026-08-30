@@ -1,50 +1,43 @@
-import heroWithFruits from './assets/images/fruit_press_hero_with_fruits_1787933942598.jpg';
-import citrusDisplay from './assets/images/fruit_press_citrus_display_1787933960977.jpg';
-import watermelonGrapeDisplay from './assets/images/fruit_press_watermelon_grape_1787933979279.jpg';
-import pressingOrangesAction from './assets/images/fruit_press_pressing_oranges_1787934001479.jpg';
+import handheldHeroWithFruits from './assets/images/handheld_fruit_press_hero_1788084431344.jpg';
+import handheldPressingOrange from './assets/images/handheld_pressing_orange_1788084451391.jpg';
+import handheldPressingLemon from './assets/images/handheld_pressing_lemon_1788084466193.jpg';
+import handheldPressingWatermelon from './assets/images/handheld_pressing_watermelon_1788084479798.jpg';
 
 export const PRODUCT_IMAGES = {
-  hero: heroWithFruits,
-  photo1: heroWithFruits,
-  photo2: citrusDisplay,
-  pressingOrange: pressingOrangesAction,
-  pressingWatermelon: watermelonGrapeDisplay,
-  pressingLemon: citrusDisplay,
+  hero: handheldHeroWithFruits,
+  photo1: handheldHeroWithFruits,
+  photo2: handheldPressingOrange,
+  pressingOrange: handheldPressingOrange,
+  pressingWatermelon: handheldPressingWatermelon,
+  pressingLemon: handheldPressingLemon,
   gallery: [
     {
-      url: heroWithFruits,
-      actionUrl: pressingOrangesAction,
-      title: 'Manual Hand Fruit Press with Fresh Assorted Fruits',
-      subtitle: 'Surrounded by fresh pineapples, oranges, watermelons, lemons, and grapes ready for effortless pressing.',
-      tag: 'Fresh Fruits Display'
+      url: handheldHeroWithFruits,
+      actionUrl: handheldPressingOrange,
+      title: 'Handheld Manual Fruit Press with Fresh Fruits',
+      subtitle: 'Heavy-duty handheld metal squeezer surrounded by fresh oranges, lemons, limes, and watermelons ready to press.',
+      tag: 'Handheld Squeezer'
     },
     {
-      url: pressingOrangesAction,
-      actionUrl: pressingOrangesAction,
-      title: 'Pressing Fresh Juicy Oranges into Pure Juice',
-      subtitle: 'Downward lever extracts 100% vitamin-packed orange juice directly into your glass.',
-      tag: 'Oranges & Citrus'
+      url: handheldPressingOrange,
+      actionUrl: handheldPressingOrange,
+      title: 'Handheld Squeeze: Sweet Oranges & Citrus',
+      subtitle: 'Customer holding and squeezing the ergonomic handles with pure golden juice pouring directly into the glass.',
+      tag: 'Orange Squeeze'
     },
     {
-      url: watermelonGrapeDisplay,
-      actionUrl: watermelonGrapeDisplay,
-      title: 'Fresh Watermelon Slices, Grapes & Kiwi Extraction',
-      subtitle: 'Presses juicy watermelon slices, berries, and soft fruits with zero pulp clogs or seeds.',
-      tag: 'Watermelon & Grapes'
+      url: handheldPressingLemon,
+      actionUrl: handheldPressingLemon,
+      title: 'Handheld Squeeze: Lemons & Limes (Seed-Free)',
+      subtitle: 'Effortlessly extracts maximum seedless juice without bitter peel oil, mess, or hand fatigue.',
+      tag: 'Lemon & Lime Squeeze'
     },
     {
-      url: citrusDisplay,
-      actionUrl: citrusDisplay,
-      title: 'Fresh Lemons, Limes & Pineapples Juicing Setup',
-      subtitle: 'Strainer bowl holds whole halves of lemons and citrus for maximum yield and zero bitter peel oil.',
-      tag: 'Lemons & Limes'
-    },
-    {
-      url: 'https://i.ibb.co/FkMR1xRG/fruit-press-3.jpg',
-      actionUrl: pressingOrangesAction,
-      title: 'Heavy-Duty Cast Metal Body & Leverage Mechanism',
-      subtitle: 'Built from food-grade cast aluminum with heavy mechanical leverage for effortless pressing.',
-      tag: 'Cast Metal Specs'
+      url: handheldPressingWatermelon,
+      actionUrl: handheldPressingWatermelon,
+      title: 'Handheld Squeeze: Watermelon & Soft Fruits',
+      subtitle: 'Easily press watermelon chunks, grapes, and soft fruits by hand for instant refreshing natural drinks.',
+      tag: 'Watermelon Squeeze'
     }
   ]
 };

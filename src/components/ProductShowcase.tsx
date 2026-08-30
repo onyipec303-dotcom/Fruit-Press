@@ -63,7 +63,7 @@ export const ProductShowcase: React.FC<ProductShowcaseProps> = ({ onOrderClick }
             </div>
 
             {/* Thumbnail Selectors Showing Unit & Action Photos */}
-            <div className="grid grid-cols-5 gap-1.5 sm:gap-2 w-full mt-3">
+            <div className="grid grid-cols-4 gap-1.5 sm:gap-2 w-full mt-3">
               {PRODUCT_IMAGES.gallery.map((img, idx) => (
                 <button
                   key={idx}

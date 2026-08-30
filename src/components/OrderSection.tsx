@@ -242,13 +242,13 @@ export const OrderSection: React.FC = () => {
         </div>
 
         {/* The Form */}
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-8 sm:space-y-10">
 
           {/* 1. Product Name (Explicit on Lead Form) */}
-          <div className="space-y-1.5">
-            <label htmlFor="productName" className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
-              <Tag className="w-3.5 h-3.5 text-orange-600" />
-              <span>Product Name</span>
+          <div className="space-y-2.5">
+            <label htmlFor="productName" className="text-xs sm:text-sm font-bold text-slate-800 uppercase tracking-wider flex items-center gap-2">
+              <Tag className="w-4 h-4 text-orange-600" />
+              <span>Product Selected</span>
             </label>
             <div className="relative">
               <input
@@ -256,27 +256,27 @@ export const OrderSection: React.FC = () => {
                 type="text"
                 readOnly
                 value={formData.productName || STORE_CONFIG.productName}
-                className="w-full px-4 py-3.5 rounded-xl border border-orange-200 bg-orange-50/50 text-slate-900 text-sm font-bold focus:outline-none cursor-default"
+                className="w-full px-5 py-4 rounded-2xl border border-orange-200 bg-orange-50/60 text-slate-900 text-sm sm:text-base font-bold focus:outline-none cursor-default shadow-xs"
               />
-              <div className="absolute right-3 top-1/2 -translate-y-1/2 px-2 py-0.5 rounded-md bg-orange-500 text-white text-[10px] font-black uppercase tracking-wider">
-                Heavy-Duty Manual Press
+              <div className="absolute right-3.5 top-1/2 -translate-y-1/2 px-2.5 py-1 rounded-lg bg-orange-600 text-white text-[11px] font-black uppercase tracking-wider shadow-xs">
+                Heavy-Duty Handheld Press
               </div>
             </div>
           </div>
 
-          {/* 2. Quantity (QTY) & Package Selection with 2 for ₦45k */}
-          <div className="space-y-2">
-            <label className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center justify-between">
-              <span className="flex items-center gap-1.5">
-                <Layers className="w-3.5 h-3.5 text-orange-600" />
-                <span>Quantity (QTY) & Package Selection *</span>
+          {/* 2. Quantity (QTY) & Package Selection */}
+          <div className="space-y-3 pt-2">
+            <label className="text-xs sm:text-sm font-bold text-slate-800 uppercase tracking-wider flex flex-wrap items-center justify-between gap-2">
+              <span className="flex items-center gap-2">
+                <Layers className="w-4 h-4 text-orange-600" />
+                <span>Select Package / Quantity (QTY) *</span>
               </span>
-              <span className="text-[11px] font-extrabold text-orange-600">
-                ⚡ Buy 2 for ₦45,000 (Save ₦5,000)
+              <span className="text-xs font-black text-orange-600 bg-orange-100 px-3 py-1 rounded-full">
+                ⚡ Best Deal: 2 Units for ₦45,000 (Save ₦5,000)
               </span>
             </label>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-1">
               {STORE_CONFIG.pricingTiers.map(tier => {
                 const isSelected = formData.quantity === tier.quantity;
                 return (
@@ -284,14 +284,14 @@ export const OrderSection: React.FC = () => {
                     key={tier.quantity}
                     type="button"
                     onClick={() => handleSelectPackage(tier.quantity)}
-                    className={`p-4 rounded-2xl border-2 text-left transition-all relative flex flex-col justify-between cursor-pointer ${
+                    className={`p-5 rounded-2xl border-2 text-left transition-all relative flex flex-col justify-between cursor-pointer ${
                       isSelected
-                        ? 'bg-orange-500 text-white border-orange-600 shadow-lg shadow-orange-500/25 scale-[1.02]'
-                        : 'bg-slate-50/70 text-slate-800 border-slate-200 hover:border-orange-300 hover:bg-orange-50/30'
+                        ? 'bg-orange-500 text-white border-orange-600 shadow-xl shadow-orange-500/25 scale-[1.02]'
+                        : 'bg-slate-50/80 text-slate-800 border-slate-200 hover:border-orange-300 hover:bg-orange-50/40'
                     }`}
                   >
                     {tier.savings && (
-                      <span className={`absolute -top-2.5 right-3 px-2.5 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider shadow-xs ${
+                      <span className={`absolute -top-3 right-3 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider shadow-xs ${
                         isSelected ? 'bg-amber-300 text-slate-900' : 'bg-emerald-600 text-white'
                       }`}>
                         {tier.savings}
@@ -303,24 +303,24 @@ export const OrderSection: React.FC = () => {
                           {tier.label}
                         </span>
                         {isSelected && (
-                          <span className="w-4 h-4 rounded-full bg-white text-orange-600 flex items-center justify-center text-[10px] font-black">
+                          <span className="w-5 h-5 rounded-full bg-white text-orange-600 flex items-center justify-center text-xs font-black">
                             ✓
                           </span>
                         )}
                       </div>
-                      <div className="text-xl sm:text-2xl font-black mt-1">
+                      <div className="text-2xl sm:text-3xl font-black mt-2">
                         ₦{tier.price.toLocaleString()}
                       </div>
-                      <div className={`text-[11px] font-semibold mt-0.5 ${isSelected ? 'text-orange-100' : 'text-slate-500'}`}>
+                      <div className={`text-xs font-semibold mt-1 ${isSelected ? 'text-orange-100' : 'text-slate-500'}`}>
                         {tier.unitNote}
                       </div>
                     </div>
 
-                    <div className={`mt-3 pt-2 text-[10px] font-bold border-t flex items-center justify-between ${
-                      isSelected ? 'border-white/20 text-white/90' : 'border-slate-200/80 text-slate-500'
+                    <div className={`mt-4 pt-3 text-[11px] font-bold border-t flex items-center justify-between ${
+                      isSelected ? 'border-white/20 text-white/90' : 'border-slate-200 text-slate-500'
                     }`}>
                       <span>{tier.badge.replace('🔥 ', '')}</span>
-                      <span>{isSelected ? 'Selected' : 'Click to select'}</span>
+                      <span>{isSelected ? '✓ Selected' : 'Click to select'}</span>
                     </div>
                   </button>
                 );
@@ -328,14 +328,17 @@ export const OrderSection: React.FC = () => {
             </div>
           </div>
           
-          {/* Form Fields Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-2">
+          {/* Divider between package selection and personal information */}
+          <div className="border-t border-orange-100 my-2 pt-2" />
+
+          {/* Form Fields: Spaced Stacks for Customer Details */}
+          <div className="space-y-6 sm:space-y-8">
             
             {/* Field 1: Full Name */}
-            <div className="space-y-1.5">
-              <label htmlFor="fullName" className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
-                <User className="w-3.5 h-3.5 text-orange-600" />
-                <span>Full Name *</span>
+            <div className="space-y-2.5">
+              <label htmlFor="fullName" className="text-xs sm:text-sm font-bold text-slate-800 uppercase tracking-wider flex items-center gap-2">
+                <User className="w-4 h-4 text-orange-600" />
+                <span>Your Full Name *</span>
               </label>
               <input
                 id="fullName"
@@ -343,51 +346,52 @@ export const OrderSection: React.FC = () => {
                 value={formData.fullName}
                 onChange={e => setFormData({ ...formData, fullName: e.target.value })}
                 placeholder="e.g. Chukwuma Emmanuel"
-                className={`w-full px-4 py-3.5 rounded-xl border bg-slate-50/50 text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all ${
+                className={`w-full px-5 py-4 rounded-2xl border bg-slate-50/60 text-slate-900 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-orange-500 focus:bg-white transition-all shadow-xs ${
                   errors.fullName ? 'border-red-400 ring-1 ring-red-300' : 'border-slate-200 hover:border-orange-300'
                 }`}
               />
               {errors.fullName && (
-                <p className="text-xs font-medium text-red-600 flex items-center gap-1">
-                  <AlertCircle className="w-3 h-3" /> {errors.fullName}
+                <p className="text-xs sm:text-sm font-medium text-red-600 flex items-center gap-1.5 pt-0.5">
+                  <AlertCircle className="w-3.5 h-3.5" /> {errors.fullName}
                 </p>
               )}
             </div>
 
             {/* Field 2: Phone Number */}
-            <div className="space-y-1.5">
-              <label htmlFor="phoneNumber" className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
-                <Phone className="w-3.5 h-3.5 text-orange-600" />
-                <span>Phone Number (Call/WhatsApp) *</span>
+            <div className="space-y-2.5">
+              <label htmlFor="phoneNumber" className="text-xs sm:text-sm font-bold text-slate-800 uppercase tracking-wider flex items-center gap-2">
+                <Phone className="w-4 h-4 text-orange-600" />
+                <span>Active Phone Number (Calls & WhatsApp) *</span>
               </label>
               <input
                 id="phoneNumber"
                 type="tel"
                 value={formData.phoneNumber}
                 onChange={e => setFormData({ ...formData, phoneNumber: e.target.value })}
-                placeholder="e.g. 08012345678"
-                className={`w-full px-4 py-3.5 rounded-xl border bg-slate-50/50 text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all ${
+                placeholder="e.g. 08012345678 or 09098765432"
+                className={`w-full px-5 py-4 rounded-2xl border bg-slate-50/60 text-slate-900 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-orange-500 focus:bg-white transition-all shadow-xs ${
                   errors.phoneNumber ? 'border-red-400 ring-1 ring-red-300' : 'border-slate-200 hover:border-orange-300'
                 }`}
               />
+              <p className="text-xs text-slate-500">Our dispatch rider will call this number before arrival.</p>
               {errors.phoneNumber && (
-                <p className="text-xs font-medium text-red-600 flex items-center gap-1">
-                  <AlertCircle className="w-3 h-3" /> {errors.phoneNumber}
+                <p className="text-xs sm:text-sm font-medium text-red-600 flex items-center gap-1.5 pt-0.5">
+                  <AlertCircle className="w-3.5 h-3.5" /> {errors.phoneNumber}
                 </p>
               )}
             </div>
 
             {/* Field 3: State Selection */}
-            <div className="space-y-1.5 sm:col-span-2">
-              <label htmlFor="state" className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
-                <Building2 className="w-3.5 h-3.5 text-orange-600" />
-                <span>State (Delivery Location) *</span>
+            <div className="space-y-2.5">
+              <label htmlFor="state" className="text-xs sm:text-sm font-bold text-slate-800 uppercase tracking-wider flex items-center gap-2">
+                <Building2 className="w-4 h-4 text-orange-600" />
+                <span>State (Delivery Destination) *</span>
               </label>
               <select
                 id="state"
                 value={formData.state}
                 onChange={e => setFormData({ ...formData, state: e.target.value })}
-                className="w-full px-4 py-3.5 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 hover:border-orange-300 transition-all cursor-pointer"
+                className="w-full px-5 py-4 rounded-2xl border border-slate-200 bg-slate-50/60 text-slate-900 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-orange-500 focus:bg-white hover:border-orange-300 transition-all cursor-pointer shadow-xs"
               >
                 {STORE_CONFIG.nigerianStates.map(st => (
                   <option key={st} value={st}>
@@ -398,24 +402,25 @@ export const OrderSection: React.FC = () => {
             </div>
 
             {/* Field 4: Delivery Address */}
-            <div className="space-y-1.5 sm:col-span-2">
-              <label htmlFor="deliveryAddress" className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
-                <MapPin className="w-3.5 h-3.5 text-orange-600" />
-                <span>Delivery Address (Street, House No, Landmark) *</span>
+            <div className="space-y-2.5">
+              <label htmlFor="deliveryAddress" className="text-xs sm:text-sm font-bold text-slate-800 uppercase tracking-wider flex items-center gap-2">
+                <MapPin className="w-4 h-4 text-orange-600" />
+                <span>Full Delivery Address (Street Name, House / Shop Number, Landmark) *</span>
               </label>
               <textarea
                 id="deliveryAddress"
-                rows={2}
+                rows={3}
                 value={formData.deliveryAddress}
                 onChange={e => setFormData({ ...formData, deliveryAddress: e.target.value })}
-                placeholder="e.g. 14 Admiralty Way, Lekki Phase 1 / Suite 4 Grand Plaza, Ikeja"
-                className={`w-full px-4 py-3 rounded-xl border bg-slate-50/50 text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all resize-none ${
+                placeholder="e.g. No. 14 Admiralty Way, opposite Mega Plaza, Lekki Phase 1, Lagos"
+                className={`w-full px-5 py-4 rounded-2xl border bg-slate-50/60 text-slate-900 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-orange-500 focus:bg-white transition-all resize-none shadow-xs ${
                   errors.deliveryAddress ? 'border-red-400 ring-1 ring-red-300' : 'border-slate-200 hover:border-orange-300'
                 }`}
               />
+              <p className="text-xs text-slate-500">Provide any popular landmark or junction close to your location for fast dispatch.</p>
               {errors.deliveryAddress && (
-                <p className="text-xs font-medium text-red-600 flex items-center gap-1">
-                  <AlertCircle className="w-3 h-3" /> {errors.deliveryAddress}
+                <p className="text-xs sm:text-sm font-medium text-red-600 flex items-center gap-1.5 pt-0.5">
+                  <AlertCircle className="w-3.5 h-3.5" /> {errors.deliveryAddress}
                 </p>
               )}
             </div>
@@ -423,29 +428,33 @@ export const OrderSection: React.FC = () => {
           </div>
 
           {/* Pricing Summary Box */}
-          <div className="p-4 sm:p-5 rounded-2xl bg-orange-50/80 border border-orange-200 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-3.5 w-full sm:w-auto">
+          <div className="p-5 sm:p-6 rounded-3xl bg-orange-50/90 border border-orange-200/90 flex flex-col sm:flex-row items-center justify-between gap-5 my-6 shadow-xs">
+            <div className="flex items-center gap-4 w-full sm:w-auto">
               <img
                 src={PRODUCT_IMAGES.hero}
                 alt="Manual Hand Fruit Press"
-                className="w-14 h-14 rounded-xl object-cover border border-orange-300 shrink-0 shadow-xs"
+                className="w-16 h-16 rounded-2xl object-cover border-2 border-orange-300 shrink-0 shadow-sm"
                 referrerPolicy="no-referrer"
               />
               <div>
                 <div className="text-xs font-bold text-slate-500 uppercase tracking-wider">
                   Order Summary ({formData.quantity} unit{formData.quantity > 1 ? 's' : ''})
                 </div>
-                <div className="text-sm font-bold text-slate-800">
+                <div className="text-base font-extrabold text-slate-900 mt-0.5">
                   {formData.productName || STORE_CONFIG.productName}
+                </div>
+                <div className="text-xs text-emerald-700 font-bold mt-0.5">
+                  ⚡ Free Nationwide Doorstep Delivery
                 </div>
               </div>
             </div>
 
-            <div className="flex items-center justify-between sm:justify-end gap-3 w-full sm:w-auto pt-2 sm:pt-0 border-t sm:border-t-0 border-orange-200">
-              <span className="text-xs px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 font-extrabold flex items-center gap-1">
-                <Truck className="w-3.5 h-3.5" /> FREE DELIVERY
+            <div className="flex items-center justify-between sm:justify-end gap-4 w-full sm:w-auto pt-3 sm:pt-0 border-t sm:border-t-0 border-orange-200">
+              <span className="text-xs px-3 py-1.5 rounded-full bg-emerald-100 text-emerald-800 font-black flex items-center gap-1.5">
+                <Truck className="w-4 h-4" /> FREE SHIPPING
               </span>
               <div className="text-right">
+                <div className="text-[11px] text-slate-500 font-bold uppercase">Total to Pay on Delivery:</div>
                 <span className="text-2xl sm:text-3xl font-black text-orange-700">
                   {STORE_CONFIG.currencySymbol}{calculateTotal(formData.quantity).toLocaleString()}
                 </span>
