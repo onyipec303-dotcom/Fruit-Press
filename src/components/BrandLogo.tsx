@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { STORE_CONFIG } from '../config';
+import businessLogo from '../assets/images/user/business_logo.png';
 import { Citrus } from 'lucide-react';
 
 interface BrandLogoProps {
@@ -13,10 +14,12 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
   size = 'md',
   showSubtitle = true
 }) => {
+  const [imageError, setImageError] = useState(false);
+
   const iconSizes = {
-    sm: 'w-8 h-8 text-base',
-    md: 'w-11 h-11 text-lg',
-    lg: 'w-14 h-14 text-xl',
+    sm: 'w-9 h-9',
+    md: 'w-12 h-12',
+    lg: 'w-16 h-16',
   };
 
   const titleSizes = {
@@ -27,9 +30,21 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
 
   return (
     <div className={`flex items-center gap-3 ${className}`}>
-      {/* Pure Vector Brand Emblem */}
-      <div className={`${iconSizes[size]} rounded-xl overflow-hidden bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center text-white shadow-md shadow-orange-500/20 shrink-0 border border-orange-300/40 p-1.5`}>
-        <Citrus className="w-full h-full stroke-[2.2]" />
+      {/* Brand Logo Graphic */}
+      <div className={`${iconSizes[size]} rounded-2xl overflow-hidden bg-white flex items-center justify-center shadow-md shadow-orange-500/10 shrink-0 border border-orange-200/80 p-1`}>
+        {!imageError ? (
+          <img
+            src={businessLogo}
+            alt={STORE_CONFIG.businessName}
+            referrerPolicy="no-referrer"
+            onError={() => setImageError(true)}
+            className="w-full h-full object-contain rounded-xl"
+          />
+        ) : (
+          <div className="w-full h-full rounded-xl bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center text-white p-1">
+            <Citrus className="w-full h-full stroke-[2.2]" />
+          </div>
+        )}
       </div>
 
       {/* Brand Text */}

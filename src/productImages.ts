@@ -1,6 +1,6 @@
-import img1 from './assets/images/user/fruit_press_1.jpg';
-import img2 from './assets/images/user/fruit_press_3.jpg';
-import img3 from './assets/images/user/fruit_press_4.jpg';
+import img1 from './assets/images/user/fruit_press_new_1.png';
+import img2 from './assets/images/user/fruit_press_new_2.jpg';
+import img3 from './assets/images/user/fruit_press_new_3.jpg';
 
 export const PRODUCT_IMAGES = {
   hero: img1,
@@ -13,20 +13,20 @@ export const PRODUCT_IMAGES = {
   gallery: [
     {
       url: img1,
-      title: 'Manual Fruit Press - Pure Citrus & Fruit Extraction',
-      subtitle: 'Heavy-duty solid cast metal construction with ergonomic dual handles for effortless pressing.',
+      title: 'Manual Fruit Press - Premium Heavy-Duty Construction',
+      subtitle: 'Ergonomic dual-handle leverage design with cast alloy juicing bowl and solid base foot.',
       tag: 'Main Unit'
     },
     {
       url: img2,
-      title: 'Precision Squeeze Chamber & Seed-Free V-Spout',
-      subtitle: 'Engineered filter and directional pour spout ensures clear juice with zero splatter or seed contamination.',
+      title: 'Precision Squeeze Chamber & Directional Spout',
+      subtitle: 'Integrated pulp and seed separation filter with clean V-spout for seedless pouring.',
       tag: 'Juice Chamber'
     },
     {
       url: img3,
-      title: 'High-Yield Lever Pressing Mechanism',
-      subtitle: 'Maximum juice extraction from oranges, lemons, limes, and soft fruits with minimal hand effort.',
+      title: 'Effortless High-Yield Extraction Action',
+      subtitle: 'Smooth downward leverage extracts every drop of juice from oranges, lemons, limes, and watermelons.',
       tag: 'Lever Action'
     }
   ]
