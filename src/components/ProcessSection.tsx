@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { Sparkles, ArrowRight, Citrus, MoveDown, GlassWater } from 'lucide-react';
+import { PRODUCT_IMAGES } from '../productImages';
 
 interface ProcessSectionProps {
   onOrderClick: () => void;
@@ -41,7 +42,7 @@ export const ProcessSection: React.FC<ProcessSectionProps> = ({ onOrderClick }) 
         <div className="absolute -bottom-10 -right-10 w-80 h-80 bg-orange-100/40 rounded-full blur-2xl pointer-events-none" />
 
         {/* Section Header with Verbatim copy */}
-        <div className="text-center max-w-3xl mx-auto mb-10">
+        <div className="text-center max-w-3xl mx-auto mb-8">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-100 text-orange-900 text-xs font-extrabold uppercase tracking-wider mb-3">
             <Sparkles className="w-3.5 h-3.5 text-orange-600" />
             <span>EFFORTLESS JUICING EXPERIENCE</span>
@@ -57,6 +58,38 @@ export const ProcessSection: React.FC<ProcessSectionProps> = ({ onOrderClick }) 
             </p>
           </div>
         </div>
+
+        {/* Middle Feature Photo: Handheld Press Juicing Setup */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.98 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="mb-10 relative rounded-2xl overflow-hidden border-2 border-orange-200 shadow-lg group max-w-2xl mx-auto bg-slate-950 flex items-center justify-center min-h-[320px] sm:min-h-[360px]"
+        >
+          <img
+            src={PRODUCT_IMAGES.process}
+            alt="Manual Fruit Press in action extracting pure fruit juice"
+            className="w-full max-h-[360px] object-contain p-2"
+            referrerPolicy="no-referrer"
+          />
+          <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-slate-900/90 text-white text-xs font-black uppercase tracking-wider backdrop-blur-xs">
+            Live Product Demo • Handheld Pressing Power
+          </div>
+          <div className="absolute bottom-3 left-3 right-3 p-3.5 rounded-xl bg-slate-950/80 backdrop-blur-md text-white border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-2 text-left">
+            <div>
+              <p className="text-xs sm:text-sm font-extrabold text-amber-300">Quick, Clean & High Yield</p>
+              <p className="text-[11px] sm:text-xs text-slate-200">Extracts maximum pure fruit juice with zero seed contamination and effortless clean-up.</p>
+            </div>
+            <button
+              onClick={onOrderClick}
+              type="button"
+              className="px-3.5 py-1.5 rounded-lg bg-orange-600 hover:bg-orange-700 text-white text-xs font-bold shrink-0 transition-colors cursor-pointer"
+            >
+              Order Now →
+            </button>
+          </div>
+        </motion.div>
 
         {/* 3 Step Visual Action Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
@@ -124,3 +157,4 @@ export const ProcessSection: React.FC<ProcessSectionProps> = ({ onOrderClick }) 
     </section>
   );
 };
+

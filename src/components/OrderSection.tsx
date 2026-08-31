@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import confetti from 'canvas-confetti';
 import { STORE_CONFIG } from '../config';
@@ -21,10 +21,18 @@ import {
   Tag,
   Layers,
   Flame,
-  Check
+  Check,
+  Hash,
+  BadgePercent
 } from 'lucide-react';
 
 export const OrderSection: React.FC = () => {
+  const [orderNumber, setOrderNumber] = useState<string>('');
+
+  useEffect(() => {
+    setOrderNumber('MFP-' + Math.floor(100000 + Math.random() * 900000));
+  }, []);
+
   const [formData, setFormData] = useState<OrderFormData>({
     fullName: '',
     phoneNumber: '',
@@ -83,14 +91,14 @@ export const OrderSection: React.FC = () => {
 
     setIsSubmitting(true);
 
-    const orderId = 'MFP-' + Math.floor(100000 + Math.random() * 900000);
+    const activeOrderId = orderNumber || ('MFP-' + Math.floor(100000 + Math.random() * 900000));
     const totalAmount = calculateTotal(formData.quantity);
     const resolvedProduct = formData.productName || STORE_CONFIG.productName;
 
     const fullOrder: SubmittedOrder = {
       ...formData,
       productName: resolvedProduct,
-      id: orderId,
+      id: activeOrderId,
       createdAt: new Date().toISOString(),
       totalAmount: totalAmount,
       whatsAppLink: `https://wa.me/${STORE_CONFIG.whatsappNumber}?text=${STORE_CONFIG.generateWhatsAppMessage({
@@ -152,7 +160,7 @@ export const OrderSection: React.FC = () => {
     <section id="order-section" className="py-16 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto scroll-mt-20">
       
       {/* Top Banner: Offer Presentation */}
-      <div className="text-center max-w-3xl mx-auto mb-10">
+      <div className="text-center max-w-3xl mx-auto mb-8">
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-100 border border-orange-300 text-orange-950 text-xs font-black uppercase tracking-wider mb-4">
           <Sparkles className="w-4 h-4 text-orange-600" />
           <span>OFFICIAL ORDER & INSTANT CONFIRMATION</span>
@@ -163,8 +171,35 @@ export const OrderSection: React.FC = () => {
           💰 GET YOUR MANUAL HAND FRUIT PRESS TODAY
         </h2>
 
+        {/* Bottom Featured Photo Banner with Cast Metal Handheld Press */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-6 relative rounded-3xl overflow-hidden shadow-xl border-2 border-orange-200 group max-w-2xl mx-auto bg-slate-950 flex items-center justify-center min-h-[340px] sm:min-h-[360px]"
+        >
+          <img
+            src={PRODUCT_IMAGES.order}
+            alt="Manual Hand Fruit Press package with solid cast aluminum construction"
+            className="w-full max-h-[360px] object-contain p-2"
+            referrerPolicy="no-referrer"
+          />
+          <div className="absolute top-3 left-3 px-3.5 py-1.5 rounded-full bg-slate-900/90 text-white text-xs font-black uppercase tracking-wider backdrop-blur-xs shadow-md">
+            Complete Fruit Press Package • Solid Cast Metal
+          </div>
+          <div className="absolute bottom-3 left-3 right-3 p-3 rounded-2xl bg-black/75 backdrop-blur-md text-white border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-2 text-left">
+            <div>
+              <p className="text-xs sm:text-sm font-extrabold text-amber-400">Order Package Includes:</p>
+              <p className="text-[11px] sm:text-xs text-slate-200">1x Heavy-Duty Manual Fruit Press + Free Doorstep Delivery across Nigeria.</p>
+            </div>
+            <div className="text-xs font-black text-emerald-400 shrink-0">
+              ✓ Pay on Delivery Available
+            </div>
+          </div>
+        </motion.div>
+
         {/* Pricing Cards: 1 Unit for ₦25k & BUY 2 FOR ₦45K */}
-        <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto text-left">
+        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto text-left">
           {/* 1 Unit */}
           <div className="p-5 rounded-2xl bg-white border-2 border-orange-200 shadow-sm relative flex flex-col justify-between">
             <div>
@@ -231,7 +266,7 @@ export const OrderSection: React.FC = () => {
                 <span>🍊 LEAD ORDER FORM</span>
               </h3>
               <p className="text-slate-600 text-sm mt-1">
-                Fill the order details below. Your order will be logged to Google Sheets and instantly confirmed on WhatsApp:
+                Please provide your details below. Your order will be logged securely and confirmed immediately via WhatsApp:
               </p>
             </div>
             <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold shrink-0 self-center sm:self-auto">
@@ -241,14 +276,141 @@ export const OrderSection: React.FC = () => {
           </div>
         </div>
 
-        {/* The Form */}
-        <form onSubmit={handleSubmit} className="space-y-8 sm:space-y-10">
+        {/* The Form in exact order: 
+            1. Order Number
+            2. Customer Name
+            3. Phone Number
+            4. Detailed Address
+            5. Product Name
+            6. Quantity
+            7. Amount 
+        */}
+        <form onSubmit={handleSubmit} className="space-y-7 sm:space-y-8">
 
-          {/* 1. Product Name (Explicit on Lead Form) */}
+          {/* 1. ORDER NUMBER */}
+          <div className="space-y-2.5">
+            <label htmlFor="orderNumber" className="text-xs sm:text-sm font-bold text-slate-800 uppercase tracking-wider flex items-center justify-between">
+              <span className="flex items-center gap-2">
+                <Hash className="w-4 h-4 text-orange-600" />
+                <span>1. Order Number</span>
+              </span>
+              <span className="text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-full">
+                Auto-Generated Ref
+              </span>
+            </label>
+            <div className="relative">
+              <input
+                id="orderNumber"
+                type="text"
+                readOnly
+                value={orderNumber || 'MFP-GENERATING...'}
+                className="w-full px-5 py-4 rounded-2xl border border-orange-200 bg-orange-50/70 text-slate-900 text-sm sm:text-base font-mono font-bold focus:outline-none cursor-default shadow-xs"
+              />
+              <div className="absolute right-3.5 top-1/2 -translate-y-1/2 px-2.5 py-1 rounded-lg bg-slate-900 text-white text-[11px] font-mono uppercase tracking-wider shadow-xs">
+                Ref Code
+              </div>
+            </div>
+            <p className="text-xs text-slate-500">Keep this reference code handy for instant delivery tracking.</p>
+          </div>
+
+          {/* 2. CUSTOMER NAME */}
+          <div className="space-y-2.5">
+            <label htmlFor="fullName" className="text-xs sm:text-sm font-bold text-slate-800 uppercase tracking-wider flex items-center gap-2">
+              <User className="w-4 h-4 text-orange-600" />
+              <span>2. Customer Name *</span>
+            </label>
+            <input
+              id="fullName"
+              type="text"
+              value={formData.fullName}
+              onChange={e => setFormData({ ...formData, fullName: e.target.value })}
+              placeholder="e.g. Chukwuma Emmanuel"
+              className={`w-full px-5 py-4 rounded-2xl border bg-slate-50/60 text-slate-900 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-orange-500 focus:bg-white transition-all shadow-xs ${
+                errors.fullName ? 'border-red-400 ring-1 ring-red-300' : 'border-slate-200 hover:border-orange-300'
+              }`}
+            />
+            {errors.fullName && (
+              <p className="text-xs sm:text-sm font-medium text-red-600 flex items-center gap-1.5 pt-0.5">
+                <AlertCircle className="w-3.5 h-3.5" /> {errors.fullName}
+              </p>
+            )}
+          </div>
+
+          {/* 3. PHONE NUMBER */}
+          <div className="space-y-2.5">
+            <label htmlFor="phoneNumber" className="text-xs sm:text-sm font-bold text-slate-800 uppercase tracking-wider flex items-center gap-2">
+              <Phone className="w-4 h-4 text-orange-600" />
+              <span>3. Phone Number (Calls & WhatsApp) *</span>
+            </label>
+            <input
+              id="phoneNumber"
+              type="tel"
+              value={formData.phoneNumber}
+              onChange={e => setFormData({ ...formData, phoneNumber: e.target.value })}
+              placeholder="e.g. 08012345678 or 09098765432"
+              className={`w-full px-5 py-4 rounded-2xl border bg-slate-50/60 text-slate-900 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-orange-500 focus:bg-white transition-all shadow-xs ${
+                errors.phoneNumber ? 'border-red-400 ring-1 ring-red-300' : 'border-slate-200 hover:border-orange-300'
+              }`}
+            />
+            <p className="text-xs text-slate-500">Our dispatch rider will call this number before arrival.</p>
+            {errors.phoneNumber && (
+              <p className="text-xs sm:text-sm font-medium text-red-600 flex items-center gap-1.5 pt-0.5">
+                <AlertCircle className="w-3.5 h-3.5" /> {errors.phoneNumber}
+              </p>
+            )}
+          </div>
+
+          {/* 4. DETAILED ADDRESS */}
+          <div className="space-y-4">
+            <div className="space-y-2.5">
+              <label htmlFor="deliveryAddress" className="text-xs sm:text-sm font-bold text-slate-800 uppercase tracking-wider flex items-center gap-2">
+                <MapPin className="w-4 h-4 text-orange-600" />
+                <span>4. Detailed Address (Street Name, House/Shop No, Landmark) *</span>
+              </label>
+              <textarea
+                id="deliveryAddress"
+                rows={3}
+                value={formData.deliveryAddress}
+                onChange={e => setFormData({ ...formData, deliveryAddress: e.target.value })}
+                placeholder="e.g. No. 14 Admiralty Way, opposite Mega Plaza, Lekki Phase 1, Lagos"
+                className={`w-full px-5 py-4 rounded-2xl border bg-slate-50/60 text-slate-900 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-orange-500 focus:bg-white transition-all resize-none shadow-xs ${
+                  errors.deliveryAddress ? 'border-red-400 ring-1 ring-red-300' : 'border-slate-200 hover:border-orange-300'
+                }`}
+              />
+              <p className="text-xs text-slate-500">Provide any popular landmark or junction close to your location for fast dispatch.</p>
+              {errors.deliveryAddress && (
+                <p className="text-xs sm:text-sm font-medium text-red-600 flex items-center gap-1.5 pt-0.5">
+                  <AlertCircle className="w-3.5 h-3.5" /> {errors.deliveryAddress}
+                </p>
+              )}
+            </div>
+
+            {/* State Selection within Detailed Address */}
+            <div className="space-y-2">
+              <label htmlFor="state" className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                <Building2 className="w-3.5 h-3.5 text-orange-600" />
+                <span>State (Delivery Destination) *</span>
+              </label>
+              <select
+                id="state"
+                value={formData.state}
+                onChange={e => setFormData({ ...formData, state: e.target.value })}
+                className="w-full px-5 py-3.5 rounded-2xl border border-slate-200 bg-slate-50/60 text-slate-900 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-orange-500 focus:bg-white hover:border-orange-300 transition-all cursor-pointer shadow-xs"
+              >
+                {STORE_CONFIG.nigerianStates.map(st => (
+                  <option key={st} value={st}>
+                    {st} State
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          {/* 5. PRODUCT NAME */}
           <div className="space-y-2.5">
             <label htmlFor="productName" className="text-xs sm:text-sm font-bold text-slate-800 uppercase tracking-wider flex items-center gap-2">
               <Tag className="w-4 h-4 text-orange-600" />
-              <span>Product Selected</span>
+              <span>5. Product Name</span>
             </label>
             <div className="relative">
               <input
@@ -264,12 +426,12 @@ export const OrderSection: React.FC = () => {
             </div>
           </div>
 
-          {/* 2. Quantity (QTY) & Package Selection */}
-          <div className="space-y-3 pt-2">
+          {/* 6. QUANTITY (QTY) */}
+          <div className="space-y-3">
             <label className="text-xs sm:text-sm font-bold text-slate-800 uppercase tracking-wider flex flex-wrap items-center justify-between gap-2">
               <span className="flex items-center gap-2">
                 <Layers className="w-4 h-4 text-orange-600" />
-                <span>Select Package / Quantity (QTY) *</span>
+                <span>6. Quantity (QTY) *</span>
               </span>
               <span className="text-xs font-black text-orange-600 bg-orange-100 px-3 py-1 rounded-full">
                 ⚡ Best Deal: 2 Units for ₦45,000 (Save ₦5,000)
@@ -327,134 +489,39 @@ export const OrderSection: React.FC = () => {
               })}
             </div>
           </div>
-          
-          {/* Divider between package selection and personal information */}
-          <div className="border-t border-orange-100 my-2 pt-2" />
 
-          {/* Form Fields: Spaced Stacks for Customer Details */}
-          <div className="space-y-6 sm:space-y-8">
+          {/* 7. AMOUNT (TOTAL AMOUNT) */}
+          <div className="space-y-2.5">
+            <label className="text-xs sm:text-sm font-bold text-slate-800 uppercase tracking-wider flex items-center gap-2">
+              <BadgePercent className="w-4 h-4 text-orange-600" />
+              <span>7. Amount (Total to Pay on Delivery)</span>
+            </label>
             
-            {/* Field 1: Full Name */}
-            <div className="space-y-2.5">
-              <label htmlFor="fullName" className="text-xs sm:text-sm font-bold text-slate-800 uppercase tracking-wider flex items-center gap-2">
-                <User className="w-4 h-4 text-orange-600" />
-                <span>Your Full Name *</span>
-              </label>
-              <input
-                id="fullName"
-                type="text"
-                value={formData.fullName}
-                onChange={e => setFormData({ ...formData, fullName: e.target.value })}
-                placeholder="e.g. Chukwuma Emmanuel"
-                className={`w-full px-5 py-4 rounded-2xl border bg-slate-50/60 text-slate-900 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-orange-500 focus:bg-white transition-all shadow-xs ${
-                  errors.fullName ? 'border-red-400 ring-1 ring-red-300' : 'border-slate-200 hover:border-orange-300'
-                }`}
-              />
-              {errors.fullName && (
-                <p className="text-xs sm:text-sm font-medium text-red-600 flex items-center gap-1.5 pt-0.5">
-                  <AlertCircle className="w-3.5 h-3.5" /> {errors.fullName}
-                </p>
-              )}
-            </div>
-
-            {/* Field 2: Phone Number */}
-            <div className="space-y-2.5">
-              <label htmlFor="phoneNumber" className="text-xs sm:text-sm font-bold text-slate-800 uppercase tracking-wider flex items-center gap-2">
-                <Phone className="w-4 h-4 text-orange-600" />
-                <span>Active Phone Number (Calls & WhatsApp) *</span>
-              </label>
-              <input
-                id="phoneNumber"
-                type="tel"
-                value={formData.phoneNumber}
-                onChange={e => setFormData({ ...formData, phoneNumber: e.target.value })}
-                placeholder="e.g. 08012345678 or 09098765432"
-                className={`w-full px-5 py-4 rounded-2xl border bg-slate-50/60 text-slate-900 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-orange-500 focus:bg-white transition-all shadow-xs ${
-                  errors.phoneNumber ? 'border-red-400 ring-1 ring-red-300' : 'border-slate-200 hover:border-orange-300'
-                }`}
-              />
-              <p className="text-xs text-slate-500">Our dispatch rider will call this number before arrival.</p>
-              {errors.phoneNumber && (
-                <p className="text-xs sm:text-sm font-medium text-red-600 flex items-center gap-1.5 pt-0.5">
-                  <AlertCircle className="w-3.5 h-3.5" /> {errors.phoneNumber}
-                </p>
-              )}
-            </div>
-
-            {/* Field 3: State Selection */}
-            <div className="space-y-2.5">
-              <label htmlFor="state" className="text-xs sm:text-sm font-bold text-slate-800 uppercase tracking-wider flex items-center gap-2">
-                <Building2 className="w-4 h-4 text-orange-600" />
-                <span>State (Delivery Destination) *</span>
-              </label>
-              <select
-                id="state"
-                value={formData.state}
-                onChange={e => setFormData({ ...formData, state: e.target.value })}
-                className="w-full px-5 py-4 rounded-2xl border border-slate-200 bg-slate-50/60 text-slate-900 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-orange-500 focus:bg-white hover:border-orange-300 transition-all cursor-pointer shadow-xs"
-              >
-                {STORE_CONFIG.nigerianStates.map(st => (
-                  <option key={st} value={st}>
-                    {st} State {st.includes('FCT') ? '' : ''}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* Field 4: Delivery Address */}
-            <div className="space-y-2.5">
-              <label htmlFor="deliveryAddress" className="text-xs sm:text-sm font-bold text-slate-800 uppercase tracking-wider flex items-center gap-2">
-                <MapPin className="w-4 h-4 text-orange-600" />
-                <span>Full Delivery Address (Street Name, House / Shop Number, Landmark) *</span>
-              </label>
-              <textarea
-                id="deliveryAddress"
-                rows={3}
-                value={formData.deliveryAddress}
-                onChange={e => setFormData({ ...formData, deliveryAddress: e.target.value })}
-                placeholder="e.g. No. 14 Admiralty Way, opposite Mega Plaza, Lekki Phase 1, Lagos"
-                className={`w-full px-5 py-4 rounded-2xl border bg-slate-50/60 text-slate-900 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-orange-500 focus:bg-white transition-all resize-none shadow-xs ${
-                  errors.deliveryAddress ? 'border-red-400 ring-1 ring-red-300' : 'border-slate-200 hover:border-orange-300'
-                }`}
-              />
-              <p className="text-xs text-slate-500">Provide any popular landmark or junction close to your location for fast dispatch.</p>
-              {errors.deliveryAddress && (
-                <p className="text-xs sm:text-sm font-medium text-red-600 flex items-center gap-1.5 pt-0.5">
-                  <AlertCircle className="w-3.5 h-3.5" /> {errors.deliveryAddress}
-                </p>
-              )}
-            </div>
-
-          </div>
-
-          {/* Pricing Summary Box */}
-          <div className="p-5 sm:p-6 rounded-3xl bg-orange-50/90 border border-orange-200/90 flex flex-col sm:flex-row items-center justify-between gap-5 my-6 shadow-xs">
-            <div className="flex items-center gap-4 w-full sm:w-auto">
-              <img
-                src={PRODUCT_IMAGES.hero}
-                alt="Manual Hand Fruit Press"
-                className="w-16 h-16 rounded-2xl object-cover border-2 border-orange-300 shrink-0 shadow-sm"
-                referrerPolicy="no-referrer"
-              />
-              <div>
-                <div className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-                  Order Summary ({formData.quantity} unit{formData.quantity > 1 ? 's' : ''})
-                </div>
-                <div className="text-base font-extrabold text-slate-900 mt-0.5">
-                  {formData.productName || STORE_CONFIG.productName}
-                </div>
-                <div className="text-xs text-emerald-700 font-bold mt-0.5">
-                  ⚡ Free Nationwide Doorstep Delivery
+            <div className="p-5 sm:p-6 rounded-3xl bg-gradient-to-r from-orange-50 via-amber-50 to-orange-50 border-2 border-orange-300 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
+              <div className="flex items-center gap-3.5">
+                <img
+                  src={PRODUCT_IMAGES.order}
+                  alt="Manual Fruit Press"
+                  className="w-16 h-16 rounded-2xl object-cover border-2 border-orange-300 shrink-0 shadow-xs"
+                  referrerPolicy="no-referrer"
+                />
+                <div>
+                  <div className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                    {formData.quantity} Unit{formData.quantity > 1 ? 's' : ''} Selected
+                  </div>
+                  <div className="text-base font-extrabold text-slate-900 mt-0.5">
+                    {formData.productName || STORE_CONFIG.productName}
+                  </div>
+                  <div className="text-xs text-emerald-700 font-bold mt-0.5">
+                    ⚡ Free Nationwide Doorstep Delivery
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className="flex items-center justify-between sm:justify-end gap-4 w-full sm:w-auto pt-3 sm:pt-0 border-t sm:border-t-0 border-orange-200">
-              <span className="text-xs px-3 py-1.5 rounded-full bg-emerald-100 text-emerald-800 font-black flex items-center gap-1.5">
-                <Truck className="w-4 h-4" /> FREE SHIPPING
-              </span>
-              <div className="text-right">
-                <div className="text-[11px] text-slate-500 font-bold uppercase">Total to Pay on Delivery:</div>
+              <div className="text-right w-full sm:w-auto flex sm:flex-col items-center sm:items-end justify-between border-t sm:border-t-0 pt-2 sm:pt-0 border-orange-200">
+                <span className="text-xs px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 font-black inline-flex items-center gap-1 mb-1">
+                  <Truck className="w-3.5 h-3.5" /> FREE DELIVERY
+                </span>
                 <span className="text-2xl sm:text-3xl font-black text-orange-700">
                   {STORE_CONFIG.currencySymbol}{calculateTotal(formData.quantity).toLocaleString()}
                 </span>
@@ -529,3 +596,4 @@ export const OrderSection: React.FC = () => {
     </section>
   );
 };
+

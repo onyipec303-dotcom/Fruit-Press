@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { STORE_CONFIG } from '../config';
+import { Citrus } from 'lucide-react';
 
 interface BrandLogoProps {
   className?: string;
@@ -12,8 +13,6 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
   size = 'md',
   showSubtitle = true
 }) => {
-  const [imageError, setImageError] = useState(false);
-
   const iconSizes = {
     sm: 'w-8 h-8 text-base',
     md: 'w-11 h-11 text-lg',
@@ -28,24 +27,9 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
 
   return (
     <div className={`flex items-center gap-3 ${className}`}>
-      {/* Logo Graphic or Image */}
-      <div className={`${iconSizes[size]} rounded-xl overflow-hidden bg-white flex items-center justify-center text-orange-600 font-black shadow-md shadow-orange-500/15 shrink-0 border border-orange-200/80 p-0.5`}>
-        {!imageError && STORE_CONFIG.businessLogoUrl ? (
-          <img
-            src={STORE_CONFIG.businessLogoUrl}
-            alt={STORE_CONFIG.businessName}
-            referrerPolicy="no-referrer"
-            onError={() => {
-              // Try fallback direct link if not tried yet
-              setImageError(true);
-            }}
-            className="w-full h-full object-contain rounded-lg"
-          />
-        ) : (
-          <div className="w-full h-full rounded-lg bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center text-white">
-            <span className="italic tracking-tighter">PS</span>
-          </div>
-        )}
+      {/* Pure Vector Brand Emblem */}
+      <div className={`${iconSizes[size]} rounded-xl overflow-hidden bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center text-white shadow-md shadow-orange-500/20 shrink-0 border border-orange-300/40 p-1.5`}>
+        <Citrus className="w-full h-full stroke-[2.2]" />
       </div>
 
       {/* Brand Text */}

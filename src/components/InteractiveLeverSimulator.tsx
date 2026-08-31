@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Sparkles, RefreshCw, CheckCircle2, ZapOff, Battery, Wrench, Hand } from 'lucide-react';
-import { PRODUCT_IMAGES } from '../productImages';
+import { Sparkles, RefreshCw, CheckCircle2, ZapOff, Battery, Wrench, Hand, Droplets, Gauge } from 'lucide-react';
 
 type HandheldFruitKey = 'orange' | 'lemon' | 'watermelon';
 
@@ -19,8 +18,8 @@ export const InteractiveLeverSimulator: React.FC<InteractiveLeverSimulatorProps>
       emoji: '🍊',
       color: '#F97316',
       juiceColor: 'from-amber-400 via-orange-500 to-orange-600',
-      actionImg: PRODUCT_IMAGES.pressingOrange,
-      actionTitle: 'Customer Squeezing Sweet Orange Juice by Hand',
+      juiceHex: '#F97316',
+      actionTitle: 'Squeezing Sweet Orange Juice by Hand',
       yieldText: '100% Pure Vitamin C Orange Juice Extracted'
     },
     lemon: {
@@ -28,8 +27,8 @@ export const InteractiveLeverSimulator: React.FC<InteractiveLeverSimulatorProps>
       emoji: '🍋',
       color: '#EAB308',
       juiceColor: 'from-yellow-300 via-yellow-400 to-amber-500',
-      actionImg: PRODUCT_IMAGES.pressingLemon,
-      actionTitle: 'Customer Squeezing Lemons & Limes (Seed-Free)',
+      juiceHex: '#EAB308',
+      actionTitle: 'Squeezing Lemons & Limes (Seed-Free)',
       yieldText: 'Maximum Seed-Free Lemonade & Lime Juice'
     },
     watermelon: {
@@ -37,8 +36,8 @@ export const InteractiveLeverSimulator: React.FC<InteractiveLeverSimulatorProps>
       emoji: '🍉',
       color: '#F43F5E',
       juiceColor: 'from-rose-400 via-red-500 to-pink-600',
-      actionImg: PRODUCT_IMAGES.pressingWatermelon,
-      actionTitle: 'Customer Squeezing Watermelon & Soft Fruits',
+      juiceHex: '#F43F5E',
+      actionTitle: 'Squeezing Watermelon & Soft Fruits',
       yieldText: 'Effortless Chilled Watermelon & Fruit Juice'
     }
   };
@@ -102,72 +101,101 @@ export const InteractiveLeverSimulator: React.FC<InteractiveLeverSimulatorProps>
           })}
         </div>
 
-        {/* Real Product Photo In-Action Showcase */}
+        {/* Interactive Mechanics Simulation Showcase */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center bg-gradient-to-b from-slate-50/80 to-orange-50/40 rounded-2xl p-6 sm:p-8 border border-orange-100 relative z-10">
           
-          {/* Left: Authentic Handheld Photo Preview & Interactive Squeeze */}
+          {/* Left: Animated Vector Press Simulator */}
           <div className="md:col-span-7 flex flex-col items-center justify-center">
             
-            <div className="relative w-full max-w-md aspect-4/3 rounded-2xl overflow-hidden border-2 border-orange-300 shadow-xl bg-slate-900 group">
-              <AnimatePresence mode="wait">
-                {!isPressed ? (
+            <div className="relative w-full max-w-md aspect-4/3 rounded-2xl overflow-hidden border-2 border-orange-300 shadow-xl bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 p-6 flex flex-col items-center justify-between text-white group">
+              
+              {/* Header inside simulation */}
+              <div className="w-full flex items-center justify-between z-10">
+                <span className="px-3 py-1 rounded-full bg-white/10 text-white text-[11px] font-bold border border-white/20">
+                  {isPressed ? '⚡ 5x Mechanical Pressure Applied' : `Fruit Loaded: ${current.name}`}
+                </span>
+                <span className={`px-2.5 py-1 rounded-full text-[11px] font-bold ${isPressed ? 'bg-emerald-500 text-white' : 'bg-orange-500 text-white'}`}>
+                  {isPressed ? 'Juicing Active' : 'Ready'}
+                </span>
+              </div>
+
+              {/* Central Dynamic Press & Juice Extraction Rig */}
+              <div className="relative w-full h-44 flex items-center justify-center my-2">
+                
+                {/* Mechanical Press Visual Rig */}
+                <div className="relative flex flex-col items-center">
+                  
+                  {/* Top Pressing Lever Arm */}
                   <motion.div
-                    key="unpressed"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="w-full h-full relative"
+                    animate={{
+                      y: isPressed ? 28 : 0,
+                      rotate: isPressed ? 4 : -8
+                    }}
+                    transition={{ type: 'spring', stiffness: 220, damping: 18 }}
+                    className="w-32 sm:w-40 h-7 rounded-xl bg-gradient-to-r from-slate-300 via-slate-100 to-slate-400 border-2 border-slate-500 shadow-lg flex items-center justify-between px-3 text-slate-800 font-black text-[10px] tracking-wider uppercase z-20"
                   >
-                    <img
-                      src={PRODUCT_IMAGES.hero}
-                      alt="Handheld Manual Fruit Press ready to squeeze"
-                      className="w-full h-full object-cover"
-                      referrerPolicy="no-referrer"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20 pointer-events-none" />
-                    
-                    {/* Status Badge */}
-                    <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-slate-950/90 text-white text-[11px] font-bold border border-white/20">
-                      📸 Handheld Press: Ready for {current.name} {current.emoji}
-                    </div>
-
-                    <div className="absolute bottom-3 left-3 right-3 p-3 rounded-xl bg-black/70 backdrop-blur-md border border-white/10 text-white text-xs">
-                      <p className="font-bold text-amber-300">Place {current.name} in the handheld press</p>
-                      <p className="text-[11px] text-slate-300 mt-0.5">Click the orange button below to squeeze and extract fresh juice</p>
-                    </div>
+                    <span>Lever Handle</span>
+                    <span className="text-orange-600 font-bold">5x Ratio</span>
                   </motion.div>
-                ) : (
-                  <motion.div
-                    key="pressed"
-                    initial={{ opacity: 0, scale: 0.98 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="w-full h-full relative"
-                  >
-                    <img
-                      src={current.actionImg}
-                      alt={current.actionTitle}
-                      className="w-full h-full object-cover"
-                      referrerPolicy="no-referrer"
+
+                  {/* Juicing Bowl & Fruit Chamber */}
+                  <div className="relative w-28 sm:w-32 h-20 rounded-b-3xl border-3 border-t-0 border-slate-300 bg-slate-800/80 mt-1 flex flex-col items-center justify-center overflow-hidden shadow-inner z-10">
+                    {/* Squeezed Fruit Animation */}
+                    <motion.div
+                      animate={{
+                        scaleY: isPressed ? 0.35 : 1,
+                        scaleX: isPressed ? 1.2 : 1,
+                        y: isPressed ? 8 : 0
+                      }}
+                      transition={{ type: 'spring', stiffness: 200, damping: 15 }}
+                      className="text-4xl select-none"
+                    >
+                      {current.emoji}
+                    </motion.div>
+
+                    {/* V-Spout at bottom */}
+                    <div className="absolute bottom-0 w-4 h-3 bg-slate-400 clip-path-triangle" />
+                  </div>
+
+                  {/* Flowing Juice Stream */}
+                  <AnimatePresence>
+                    {isPressed && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 42, opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="w-2 rounded-full mt-0.5"
+                        style={{ backgroundColor: current.juiceHex }}
+                      />
+                    )}
+                  </AnimatePresence>
+
+                  {/* Juice Collection Glass at bottom */}
+                  <div className="w-16 h-12 rounded-b-xl border-2 border-t-0 border-white/40 bg-white/5 backdrop-blur-xs relative overflow-hidden flex items-end p-0.5 mt-1">
+                    <motion.div
+                      initial={{ height: '10%' }}
+                      animate={{ height: isPressed ? '95%' : '15%' }}
+                      transition={{ duration: 0.6 }}
+                      className="w-full rounded-b-lg"
+                      style={{ backgroundColor: current.juiceHex }}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20 pointer-events-none" />
+                  </div>
 
-                    {/* Active Extraction Badge */}
-                    <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-emerald-600 text-white text-[11px] font-black uppercase tracking-wider flex items-center gap-1.5 shadow-md">
-                      <CheckCircle2 className="w-3.5 h-3.5" /> Juice Flowing (98% Yield)
-                    </div>
+                </div>
 
-                    <div className="absolute bottom-3 left-3 right-3 p-3 rounded-xl bg-slate-950/85 backdrop-blur-md border border-white/20 text-white text-xs">
-                      <p className="font-black text-amber-300 uppercase tracking-wide">{current.actionTitle}</p>
-                      <p className="text-[11px] text-slate-200 mt-0.5">
-                        Pure natural juice without sticky hands, seeds, or electric power.
-                      </p>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              </div>
+
+              {/* Dynamic Status Text */}
+              <div className="w-full text-center z-10">
+                <p className="text-xs font-black text-amber-300">
+                  {isPressed ? current.actionTitle : `Place ${current.name} into the press`}
+                </p>
+                <p className="text-[11px] text-slate-300 mt-0.5">
+                  {isPressed ? 'Pure juice stream without seeds, skin oils, or sticky fingers.' : 'Click below to squeeze the lever handle and extract fresh juice.'}
+                </p>
+              </div>
+
             </div>
 
             {/* Handheld Squeeze Trigger Buttons */}

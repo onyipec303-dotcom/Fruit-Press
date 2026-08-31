@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { PRODUCT_IMAGES } from '../productImages';
-import { ShieldCheck, Check, Sparkles, Droplets, Layers, Zap, ZoomIn, CheckCircle2 } from 'lucide-react';
+import { ShieldCheck, Sparkles, Droplets, Zap, CheckCircle2, Award, Hammer, Gauge, Filter, Clock, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface ProductShowcaseProps {
   onOrderClick: () => void;
 }
 
 export const ProductShowcase: React.FC<ProductShowcaseProps> = ({ onOrderClick }) => {
-  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-  const activeImage = PRODUCT_IMAGES.gallery[selectedImageIndex];
+  const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
+  const currentPhoto = PRODUCT_IMAGES.gallery[selectedPhotoIndex];
 
   return (
     <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
@@ -22,73 +22,74 @@ export const ProductShowcase: React.FC<ProductShowcaseProps> = ({ onOrderClick }
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-10">
           
-          {/* Left Column: Authentic Photo Gallery & Interactive Previews */}
+          {/* Left Column: Interactive 3-Photo Showcase Gallery */}
           <div className="lg:col-span-6 flex flex-col items-center">
             
             {/* Main Featured Photo Frame */}
-            <div className="w-full relative rounded-2xl overflow-hidden border-2 border-orange-200 shadow-lg bg-slate-900 group">
+            <div className="w-full relative rounded-2xl overflow-hidden border-2 border-orange-200 shadow-lg bg-slate-950 group">
               <AnimatePresence mode="wait">
                 <motion.div
-                  key={selectedImageIndex}
+                  key={selectedPhotoIndex}
                   initial={{ opacity: 0, scale: 0.98 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 1.02 }}
-                  transition={{ duration: 0.35 }}
-                  className="relative aspect-4/3 w-full"
+                  transition={{ duration: 0.3 }}
+                  className="relative aspect-4/3 w-full flex items-center justify-center bg-slate-950 p-2"
                 >
                   <img
-                    src={activeImage.url}
-                    alt={activeImage.title}
-                    className="w-full h-full object-cover"
+                    src={currentPhoto.url}
+                    alt={currentPhoto.title}
+                    className="max-h-full max-w-full object-contain rounded-lg"
                     referrerPolicy="no-referrer"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-black/30 pointer-events-none" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent pointer-events-none rounded-2xl" />
                 </motion.div>
               </AnimatePresence>
 
-              {/* Top Tag */}
+              {/* Tag Overlays */}
               <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-slate-900/90 text-white text-[11px] font-black tracking-wider uppercase backdrop-blur-xs shadow-xs">
-                {activeImage.tag}
+                {currentPhoto.tag}
               </div>
               
-              <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-emerald-600/90 text-white text-[11px] font-black tracking-wider uppercase backdrop-blur-xs shadow-xs">
-                Heavy-Duty Metal
+              <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-emerald-600/90 text-white text-[11px] font-black tracking-wider uppercase backdrop-blur-xs shadow-xs flex items-center gap-1">
+                <ShieldCheck className="w-3.5 h-3.5" /> Authentic Photo
               </div>
 
               {/* Photo Caption Overlay */}
-              <div className="absolute bottom-3 left-3 right-3 p-3 rounded-xl bg-black/60 backdrop-blur-md text-white border border-white/10">
-                <p className="text-xs font-bold text-amber-300">{activeImage.title}</p>
-                <p className="text-[11px] text-slate-200 line-clamp-1 mt-0.5">{activeImage.subtitle}</p>
+              <div className="absolute bottom-3 left-3 right-3 p-3.5 rounded-xl bg-black/75 backdrop-blur-md text-white border border-white/10">
+                <p className="text-xs font-black text-amber-300">{currentPhoto.title}</p>
+                <p className="text-[11px] text-slate-200 line-clamp-2 mt-0.5">{currentPhoto.subtitle}</p>
               </div>
             </div>
 
-            {/* Thumbnail Selectors Showing Unit & Action Photos */}
-            <div className="grid grid-cols-4 gap-1.5 sm:gap-2 w-full mt-3">
-              {PRODUCT_IMAGES.gallery.map((img, idx) => (
+            {/* Thumbnail Selectors for the 3 user photos */}
+            <div className="grid grid-cols-3 gap-2 sm:gap-3 w-full mt-3">
+              {PRODUCT_IMAGES.gallery.map((photo, idx) => (
                 <button
                   key={idx}
                   type="button"
-                  onClick={() => setSelectedImageIndex(idx)}
-                  className={`relative rounded-xl overflow-hidden border-2 transition-all cursor-pointer aspect-square flex items-center justify-center bg-slate-900 ${
-                    selectedImageIndex === idx
-                      ? 'border-orange-600 ring-2 ring-orange-400 scale-105 shadow-md z-10'
-                      : 'border-slate-200 opacity-75 hover:opacity-100 hover:border-orange-300'
+                  onClick={() => setSelectedPhotoIndex(idx)}
+                  className={`p-1.5 rounded-xl border-2 transition-all text-left cursor-pointer flex flex-col items-center bg-white ${
+                    selectedPhotoIndex === idx
+                      ? 'border-orange-600 bg-orange-50 ring-2 ring-orange-300 shadow-md scale-102'
+                      : 'border-slate-200 hover:border-orange-300 opacity-80 hover:opacity-100'
                   }`}
                 >
-                  <img
-                    src={img.url}
-                    alt={img.tag}
-                    className="w-full h-full object-cover"
-                    referrerPolicy="no-referrer"
-                  />
-                  <span className="absolute bottom-0 inset-x-0 bg-black/80 text-white text-[9px] font-bold text-center py-0.5 truncate px-0.5">
-                    {img.tag.split(' ')[0]}
-                  </span>
+                  <div className="w-full h-16 rounded-lg overflow-hidden bg-slate-900 mb-1.5 flex items-center justify-center p-0.5">
+                    <img
+                      src={photo.url}
+                      alt={photo.tag}
+                      className="w-full h-full object-cover rounded"
+                      referrerPolicy="no-referrer"
+                    />
+                  </div>
+                  <div className="text-[11px] font-black text-slate-900 truncate w-full text-center">{photo.tag}</div>
+                  <div className="text-[9px] text-slate-500 truncate w-full text-center">Photo {idx + 1} of 3</div>
                 </button>
               ))}
             </div>
 
-            {/* Mechanical Specifications Badge */}
+            {/* Mechanical Specifications Badges */}
             <div className="grid grid-cols-3 gap-2 w-full mt-4 text-center">
               <div className="p-2.5 rounded-xl bg-orange-50/80 border border-orange-200 shadow-xs">
                 <span className="text-[10px] font-bold text-slate-600 uppercase block">Mechanical Ratio</span>
@@ -178,4 +179,3 @@ export const ProductShowcase: React.FC<ProductShowcaseProps> = ({ onOrderClick }
     </section>
   );
 };
-

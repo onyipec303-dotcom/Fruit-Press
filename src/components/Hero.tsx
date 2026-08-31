@@ -60,19 +60,20 @@ export const Hero: React.FC<HeroProps> = ({ onOrderClick }) => {
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.25 }}
-          className="mt-8 relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white ring-1 ring-orange-200 group max-w-3xl mx-auto"
+          className="mt-8 relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white ring-1 ring-orange-200 group max-w-2xl mx-auto bg-slate-950 flex items-center justify-center min-h-[360px] sm:min-h-[420px]"
         >
           <img
             src={PRODUCT_IMAGES.hero}
-            alt="Manual Hand Fruit Press in action with fresh pineapple, oranges, lemons and juice"
-            className="w-full h-auto object-cover max-h-[440px] transform group-hover:scale-102 transition-transform duration-500"
+            alt="Manual Hand Fruit Press with solid cast metal lever"
+            className="w-full max-h-[420px] object-contain transform group-hover:scale-102 transition-transform duration-500 p-2"
             referrerPolicy="no-referrer"
           />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-black/20 pointer-events-none" />
           
           {/* Overlaid Badges */}
           <div className="absolute top-3 sm:top-4 left-3 sm:left-4 flex flex-wrap gap-2">
             <span className="px-3 py-1.5 rounded-full bg-slate-900/90 text-white text-xs font-black uppercase tracking-wider backdrop-blur-md shadow-md flex items-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5 text-amber-400" /> Real Product Demo
+              <Sparkles className="w-3.5 h-3.5 text-amber-400" /> Authentic Product Photo
             </span>
             <span className="px-3 py-1.5 rounded-full bg-orange-600/90 text-white text-xs font-black uppercase tracking-wider backdrop-blur-md shadow-md">
               Heavy-Duty Cast Metal
